@@ -1,0 +1,83 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col">
+        <h2>Cursos</h2>
+      </div>
+
+      <div class="col-2">
+        <div class="row gap-2">
+          <button class="col btn btn-primary" [routerLink]="['novo']">Novo</button>
+          <button class="col-3 btn btn-outline-info" (click)="onRefresh()">
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <table class="table table-hover table-striped" aria-describedby="cursos"
+           *ngIf="cursos$ | async as cursos; else loading">
+      <thead>
+      <tr>
+        <th scope="col" class="col-1">#</th>
+        <th scope="col" class="col">Cursos</th>
+        <th scope="col" class="col-2"></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let curso of cursos">
+        <th scope="row">{{ curso.id }}</th>
+
+        <td>{{ curso.nome }}</td>
+
+        <td>
+          <div class="row gap-3">
+            <a class="btn btn-outline-warning btn-sm col" [routerLink]="['editar', curso.id]" (click)="onEdit(curso.id)">
+              <i class="bi bi-pencil-square"></i>
+            </a>
+
+            <a class="btn btn-outline-danger btn-sm col" [routerLink]="['deletar', curso.id]" (click)="onDelete(curso)">
+              <i class="bi bi-trash"></i>
+            </a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <ng-template #loading>
+      <div class="d-flex align-items-center">
+        <strong>Loading...</strong>
+        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<ng-template #deleteModal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Curso deletion</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close button"
+      aria-describedby="modal-title"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <p>
+      <strong>Are you sure you want to delete <span class="text-primary">"John Doe"</span> profile?</strong>
+    </p>
+    <p>
+      All information associated to this user profile will be permanently deleted.
+      <span class="text-danger">This operation can not be undone.</span>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary">Cancel</button>
+    <button type="button" ngbAutofocus class="btn btn-danger">Ok</button>
+  </div>
+</ng-template>
